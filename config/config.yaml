@@ -6,6 +6,7 @@ slack:
   clientID: ""
   clientSecret: ""
   callbackURL: ""
+  token: ""
 server:
   port: 8080
 database:
@@ -15,4 +16,4 @@ database:
   password: ""
 core:
   cryptoKey: ""
-  expirationTime: 10 # SECONDS
+  expirationTime: 60 # SECONDS

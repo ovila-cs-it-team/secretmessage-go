@@ -19,11 +19,12 @@ import (
 
 type BotConfig struct {
 	Slack struct {
-		AppURL       string `yaml:"appURL"`
-		SigingSecret string `yaml:"signingSecret"`
-		ClientID     string `yaml:"clientID"`
-		ClientSecret string `yaml:"clientSecret"`
-		CallbackURL  string `yaml:"callbackURL"`
+		AppURL        string `yaml:"appURL"`
+		SigningSecret string `yaml:"signingSecret"`
+		ClientID      string `yaml:"clientID"`
+		ClientSecret  string `yaml:"clientSecret"`
+		CallbackURL   string `yaml:"callbackURL"`
+		Token         string `yaml:"token"`
 	} `yaml:"slack"`
 	Server struct {
 		Port int64 `yaml:"port"`
@@ -37,7 +38,7 @@ type BotConfig struct {
 	} `yaml:"database"`
 	Core struct {
 		CryptoKey      string `yaml:"cryptoKey"`
-		ExpirationTime int    `yaml:"expirationTime"`
+		ExpirationTime int64  `yaml:"expirationTime"`
 	} `yaml:"core"`
 }
 
@@ -48,7 +49,7 @@ func initConfig() *BotConfig {
 	viper.SetConfigType("yaml")
 
 	viper.SetDefault("secretmessage.server.port", 8080)
-	viper.SetDefault("secretmessage.core.expirationTime", 10)
+	viper.SetDefault("secretmessage.core.expirationTime", 60)
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("error initializing config file: %v", err)
@@ -78,11 +79,12 @@ func main() {
 
 	conf := secretmessage.Config{
 		Port:            config.Server.Port,
-		SlackToken:      "",
-		SigningSecret:   config.Slack.SigingSecret,
+		SlackToken:      config.Slack.Token,
+		SigningSecret:   config.Slack.SigningSecret,
 		AppURL:          config.Slack.AppURL,
 		LegacyCryptoKey: config.Core.CryptoKey,
 		DatabaseURL:     config.Database.URL,
+		ExpirationTime:  config.Core.ExpirationTime,
 		OauthConfig: &oauth2.Config{
 			ClientID:     config.Slack.ClientID,
 			ClientSecret: config.Slack.ClientSecret,

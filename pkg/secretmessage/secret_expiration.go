@@ -8,7 +8,7 @@ import (
 )
 
 // Handle secret expiration that flush secrets in DB
-func FlushExpiredSecrets(ctl *PublicController, secret *Secret) error {
+func FlushExpiredSecret(ctl *PublicController, secret *Secret) error {
 	for {
 		now := time.Now()
 

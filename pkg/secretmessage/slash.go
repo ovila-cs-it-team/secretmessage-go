@@ -29,9 +29,10 @@ func PrepareAndSendSecretEnvelope(ctl *PublicController, c *gin.Context, tx *apm
 
 	// Store the secret
 	secretStoreTime := time.Now()
+
 	secret := Secret{
 		ID:        hash(secretID),
-		ExpiresAt: secretStoreTime.Add(time.Second * 20),
+		ExpiresAt: secretStoreTime.Add(time.Second * time.Duration(ctl.config.ExpirationTime)),
 		Value:     secretEncrypted,
 	}
 	storeErr := ctl.db.WithContext(hc).Create(
@@ -44,7 +45,7 @@ func PrepareAndSendSecretEnvelope(ctl *PublicController, c *gin.Context, tx *apm
 		return storeErr
 	}
 
-	go FlushExpiredSecrets(ctl, &secret)
+	go FlushExpiredSecret(ctl, &secret)
 
 	secretResponse := slack.Message{
 		Msg: slack.Msg{

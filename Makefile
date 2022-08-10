@@ -4,7 +4,7 @@ PROJECT_NAME   ?= secretmessage
 OS             := $(shell uname -s)
 GOOS           ?= $(shell echo $(OS) | tr '[:upper:]' '[:lower:]')
 
-BUILD_OPTS   = -s -w" -gcflags="-trimpath=$(GOPATH)/src"
+BUILD_OPTS   = -gcflags="-trimpath=$(GOPATH)/src"
 
 lint: ; $(info $(M) running linter…) @
 	golangci-lint run -v
