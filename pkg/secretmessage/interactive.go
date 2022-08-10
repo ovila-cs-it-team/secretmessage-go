@@ -112,6 +112,7 @@ func CallbackSendSecret(ctl *PublicController, tx *apm.Transaction, c *gin.Conte
 	if delSecretErr := ctl.db.WithContext(hc).Unscoped().Where("id = ?", hash(secretID)).Delete(Secret{}).Error; delSecretErr != nil {
 		log.Error(delSecretErr)
 	}
+
 	return
 }
 

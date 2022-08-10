@@ -116,33 +116,5 @@ func SlashSecret(ctl *PublicController, c *gin.Context, tx *apm.Transaction, s s
 	// Send empty Ack to Slack if we got here without errors
 	c.Data(http.StatusOK, gin.MIMEPlain, nil)
 
-	if AppReinstallNeeded(ctl, c, tx, s) {
-		SendReinstallMessage(ctl, c, tx, s)
-	}
-
 	return
-}
-
-func AppReinstallNeeded(ctl *PublicController, c *gin.Context, tx *apm.Transaction, s slack.SlashCommand) bool {
-	var team Team
-	hc := c.Request.Context()
-	err := ctl.db.WithContext(hc).Where("id = ?", s.TeamID).First(&team).Error
-	if err != nil || team.AccessToken == "" {
-		log.Warnf("%v: could not find access_token for team %v in store", err, s.TeamID)
-		return true
-	}
-	return false
-}
-
-func SendReinstallMessage(ctl *PublicController, c *gin.Context, tx *apm.Transaction, s slack.SlashCommand) {
-	responseEphemeral := slack.Message{
-		Msg: slack.Msg{
-			ResponseType: slack.ResponseTypeEphemeral,
-			Text:         fmt.Sprintf(":wave: Hey, we're working hard updating Secret Message. In order to keep using the app, <%v/auth/slack|please click here to reinstall>", ctl.config.AppURL),
-		},
-	}
-	sendMessageEphemeralErr := secretslack.SendResponseUrlMessage(c.Request.Context(), s.ResponseURL, responseEphemeral)
-	if sendMessageEphemeralErr != nil {
-		log.Errorf("error sending ephemeral reinstall message: %v", sendMessageEphemeralErr)
-	}
 }

@@ -97,6 +97,7 @@ func main() {
 		},
 	}
 
+	log.Info("Opening database connection...")
 	db, err := gorm.Open(postgres.Open(conf.DatabaseURL), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
@@ -105,6 +106,7 @@ func main() {
 	d.SetMaxIdleConns(10)
 	d.SetMaxOpenConns(10)
 
+	log.Info("Starting database migration...")
 	db.AutoMigrate(secretmessage.Secret{})
 	db.AutoMigrate(secretmessage.Team{})
 
@@ -114,6 +116,7 @@ func main() {
 	)
 
 	go secretmessage.StayAwake(conf)
+
 	r := controller.ConfigureRoutes()
 	log.Infof("Booted and listening on port %v", conf.Port)
 	r.Run(fmt.Sprintf("0.0.0.0:%v", conf.Port))

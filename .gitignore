@@ -1,5 +1,5 @@
 secretmessage
 !secretmessage/
 .vscode/
-launch_dev.sh
 secretmessage.yaml
+app_manifest.yaml
