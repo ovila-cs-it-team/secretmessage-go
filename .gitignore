@@ -2,3 +2,4 @@ secretmessage
 !secretmessage/
 .vscode/
 launch_dev.sh
+secretmessage.yaml

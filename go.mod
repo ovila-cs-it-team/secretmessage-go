@@ -8,37 +8,23 @@ require (
 	github.com/elastic/go-sysinfo v1.4.0 // indirect
 	github.com/elastic/go-windows v1.0.1 // indirect
 	github.com/gin-gonic/gin v1.7.0
-	github.com/golang/protobuf v1.4.3 // indirect
-	github.com/google/go-cmp v0.5.1 // indirect
-	github.com/google/uuid v1.1.2 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jackc/pgx/v4 v4.10.1 // indirect
 	github.com/jarcoal/httpmock v1.0.6
-	github.com/kr/pretty v0.2.0 // indirect
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/lithammer/shortuuid v3.0.0+incompatible
 	github.com/onsi/ginkgo v1.14.2
 	github.com/onsi/gomega v1.10.4
-	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/common v0.9.1
-	github.com/prometheus/procfs v0.2.0 // indirect
+	github.com/prometheus/common v0.26.0
 	github.com/sirupsen/logrus v1.7.0 // indirect
 	github.com/slack-go/slack v0.6.4
-	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/spf13/viper v1.12.0
 	go.elastic.co/apm v1.11.0
 	go.elastic.co/apm/module/apmgin v1.9.0
 	go.elastic.co/apm/module/apmgormv2 v1.9.0
 	go.elastic.co/apm/module/apmhttp v1.9.0
-	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620 // indirect
-	golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb
-	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
-	golang.org/x/sys v0.0.0-20201223074533-0d417f636930 // indirect
-	golang.org/x/text v0.3.4 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/appengine v1.6.6 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c // indirect
+	golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2
+	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.8
 	// gorm.io/gorm v1.20.8

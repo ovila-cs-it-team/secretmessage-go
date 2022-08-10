@@ -5,53 +5,65 @@ import (
 	"net/http"
 	"time"
 
-	"strconv"
-
-	"os"
-
 	"github.com/neufeldtech/secretmessage-go/pkg/secretmessage"
 	"github.com/neufeldtech/secretmessage-go/pkg/secretslack"
 	"github.com/prometheus/common/log"
 	_ "go.elastic.co/apm/module/apmgormv2"
 	postgres "go.elastic.co/apm/module/apmgormv2/driver/postgres"
 
+	"github.com/spf13/viper"
 	"go.elastic.co/apm/module/apmhttp"
 	"golang.org/x/oauth2"
 	"gorm.io/gorm"
 )
 
-var (
-	defaultPort                 int64 = 8080
-	slackSigningSecretConfigKey       = "slackSigningSecret"
-	slackClientIDConfigKey            = "slackClientID"
-	slackClientSecretConfigKey        = "slackClientSecret"
-	slackCallbackURLConfigKey         = "slackCallbackURL"
-	legacyCryptoKeyConfigKey          = "legacyCryptoKey"
-	appURLConfigKey                   = "appURL"
-	databaseURL                       = "databaseURL"
+type BotConfig struct {
+	Slack struct {
+		AppURL       string `yaml:"appURL"`
+		SigingSecret string `yaml:"signingSecret"`
+		ClientID     string `yaml:"clientID"`
+		ClientSecret string `yaml:"clientSecret"`
+		CallbackURL  string `yaml:"callbackURL"`
+	} `yaml:"slack"`
+	Server struct {
+		Port int64 `yaml:"port"`
+	} `yaml:"server"`
+	Database struct {
+		Name     string `yaml:"name"`
+		Host     string `yaml:"host"`
+		Username string `yaml:"username"`
+		Password string `yaml:"password"`
+		URL      string `yaml:"url"`
+	} `yaml:"database"`
+	Core struct {
+		CryptoKey      string `yaml:"cryptoKey"`
+		ExpirationTime int    `yaml:"expirationTime"`
+	} `yaml:"core"`
+}
 
-	configMap = map[string]string{
-		slackSigningSecretConfigKey: os.Getenv("SLACK_SIGNING_SECRET"),
-		slackClientIDConfigKey:      os.Getenv("SLACK_CLIENT_ID"),
-		slackClientSecretConfigKey:  os.Getenv("SLACK_CLIENT_SECRET"),
-		slackCallbackURLConfigKey:   os.Getenv("SLACK_CALLBACK_URL"),
-		legacyCryptoKeyConfigKey:    os.Getenv("CRYPTO_KEY"),
-		appURLConfigKey:             os.Getenv("APP_URL"),
-		databaseURL:                 os.Getenv("DATABASE_URL"),
-	}
-)
+func initConfig() *BotConfig {
+	viper.AddConfigPath("./config")
+	viper.SetConfigName("config")
+	viper.SetConfigName("secretmessage")
+	viper.SetConfigType("yaml")
 
-func resolvePort() int64 {
+	viper.SetDefault("secretmessage.server.port", 8080)
+	viper.SetDefault("secretmessage.core.expirationTime", 10)
 
-	portString := os.Getenv("PORT")
-	if portString == "" {
-		return defaultPort
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("error initializing config file: %v", err)
 	}
-	port64, err := strconv.ParseInt(portString, 10, 64)
-	if err != nil {
-		return defaultPort
+
+	config := BotConfig{}
+	if err := viper.Unmarshal(&config); err != nil {
+		log.Fatalf("error unmarshaling config file to struct: %v", err)
 	}
-	return port64
+
+	config.Database.URL = fmt.Sprintf(
+		"postgres://%s:%s@%s/%s", config.Database.Username, config.Database.Password, config.Database.Host, config.Database.Name,
+	)
+
+	return &config
 }
 
 func main() {
@@ -61,23 +73,20 @@ func main() {
 			Timeout: time.Second * 5,
 		},
 	))
-	for k, v := range configMap {
-		if v == "" {
-			log.Fatalf("error initializaing config. key %v was not set", k)
-		}
-	}
+
+	config := initConfig()
 
 	conf := secretmessage.Config{
-		Port:            resolvePort(),
+		Port:            config.Server.Port,
 		SlackToken:      "",
-		SigningSecret:   configMap[slackSigningSecretConfigKey],
-		AppURL:          configMap[appURLConfigKey],
-		LegacyCryptoKey: configMap[legacyCryptoKeyConfigKey],
-		DatabaseURL:     configMap[databaseURL],
+		SigningSecret:   config.Slack.SigingSecret,
+		AppURL:          config.Slack.AppURL,
+		LegacyCryptoKey: config.Core.CryptoKey,
+		DatabaseURL:     config.Database.URL,
 		OauthConfig: &oauth2.Config{
-			ClientID:     configMap[slackClientIDConfigKey],
-			ClientSecret: configMap[slackClientSecretConfigKey],
-			RedirectURL:  configMap[slackCallbackURLConfigKey],
+			ClientID:     config.Slack.ClientID,
+			ClientSecret: config.Slack.ClientSecret,
+			RedirectURL:  config.Slack.CallbackURL,
 			Scopes:       []string{"chat:write", "commands", "workflow.steps:execute"},
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  "https://slack.com/oauth/v2/authorize",

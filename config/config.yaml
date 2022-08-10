@@ -1,0 +1,18 @@
+---
+
+slack:
+  appURL: ""
+  signingSecret: ""
+  clientID: ""
+  clientSecret: ""
+  callbackURL: ""
+server:
+  port: 8080
+database:
+  name: ""
+  host: ""
+  username: ""
+  password: ""
+core:
+  cryptoKey: ""
+  expirationTime: 10 # SECONDS
