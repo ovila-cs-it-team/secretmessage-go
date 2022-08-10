@@ -1,7 +1,4 @@
-bin
-.env*
-tmp
-secretmessage-go
-dump.rdb
-wishlist.md
-nohup.out
+secretmessage
+!secretmessage/
+.vscode/
+launch_dev.sh
