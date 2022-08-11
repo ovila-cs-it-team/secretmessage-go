@@ -19,7 +19,6 @@ func NewController(config Config, db *gorm.DB) *PublicController {
 }
 
 func (ctl *PublicController) ConfigureRoutes() *gin.Engine {
-
 	r := gin.Default()
 	r.Use(apmgin.Middleware(r))
 

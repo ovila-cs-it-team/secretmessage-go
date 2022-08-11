@@ -49,7 +49,7 @@ func initConfig() *BotConfig {
 	viper.SetConfigType("yaml")
 
 	viper.SetDefault("secretmessage.server.port", 8080)
-	viper.SetDefault("secretmessage.core.expirationTime", 60)
+	viper.SetDefault("secretmessage.core.expirationTime", 86400)
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("error initializing config file: %v", err)

@@ -16,4 +16,4 @@ database:
   password: ""
 core:
   cryptoKey: ""
-  expirationTime: 60 # SECONDS
+  expirationTime: 86400 # SECONDS = 1 day

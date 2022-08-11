@@ -80,7 +80,6 @@ func PrepareAndSendSecretEnvelope(ctl *PublicController, c *gin.Context, tx *apm
 
 // SlashSecret is the main entrypoint for the slash command /secret
 func SlashSecret(ctl *PublicController, c *gin.Context, tx *apm.Transaction, s slack.SlashCommand) {
-
 	tx.Context.SetLabel("userHash", hash(s.UserID))
 	tx.Context.SetLabel("teamHash", hash(s.TeamID))
 	tx.Context.SetLabel("action", "createSecret")
