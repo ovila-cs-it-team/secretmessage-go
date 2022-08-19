@@ -37,7 +37,7 @@ Forked from [HERE](https://github.com/neufeldtech/secret-message)
 The config file is handled [here](config/config.yaml)
 ```yaml
 slack:
-  appURL:               # Base URL of the bot
+  appURL:               # Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
   signingSecret:        # Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
   clientID:             # Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
   clientSecret:         # Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
@@ -51,7 +51,7 @@ database:
   username:             # Database user
   password:             # Database password
 core:
-  cryptoKey:            # Message hashing string
+  cryptoKey:            # A chosen string to hash messages
   expirationTime:       # Expiration time of message in database (in seconds)
 ```
 
