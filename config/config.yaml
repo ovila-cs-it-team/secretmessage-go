@@ -1,19 +1,19 @@
 ---
 
 slack:
-  appURL: ""
-  signingSecret: ""
-  clientID: ""
-  clientSecret: ""
-  callbackURL: ""
-  token: ""
+  appURL: "https://0107-195-68-53-201.eu.ngrok.io"
+  signingSecret: "SlackSigningSecret"
+  clientID: "SlackClientID"
+  clientSecret: "SlackClientSecret"
+  callbackURL: "https://0107-195-68-53-201.eu.ngrok.io/auth/slack/callback"
+  token: "SlackToken"
 server:
   port: 8080
 database:
-  name: ""
-  host: ""
-  username: ""
-  password: ""
+  name: "DB_Name"
+  host: "DataBaseHostURL"
+  username: "DBUsernameUsername"
+  password: "DBUsernamePassword"
 core:
-  cryptoKey: ""
+  cryptoKey: "HashCryptoKey"
   expirationTime: 86400 # SECONDS = 1 day

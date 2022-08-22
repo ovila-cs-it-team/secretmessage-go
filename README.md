@@ -38,20 +38,20 @@ The config file is handled [here](config/config.yaml)
 ```yaml
 slack:
   appURL:               # Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
-  signingSecret:        # Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
-  clientID:             # Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
-  clientSecret:         # Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
+  signingSecret:        # (⚠️Env Variable) Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
+  clientID:             # (⚠️Env Variable) Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
+  clientSecret:         # (⚠️Env Variable) Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
   callbackURL:          # Callback URL (https://${APP_URL}/auth/slack/callback)
-  token:                # Slack verification token (https://api.slack.com/apps/${APP_ID}/general)
+  token:                # (⚠️Env Variable) Slack verification token (https://api.slack.com/apps/${APP_ID}/general)
 server:
   port:                 # Bot webserver port
 database:
   name:                 # Database name
   host:                 # Database host/address
-  username:             # Database user
-  password:             # Database password
+  username:             # (⚠️Env Variable) Database user
+  password:             # (⚠️Env Variable) Database password
 core:
-  cryptoKey:            # A chosen string to hash messages
+  cryptoKey:            # (⚠️Env Variable) A chosen string to hash messages
   expirationTime:       # Expiration time of message in database (in seconds)
 ```
 

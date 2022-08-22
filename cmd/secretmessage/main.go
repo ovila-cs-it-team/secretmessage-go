@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/neufeldtech/secretmessage-go/pkg/secretmessage"
@@ -45,7 +46,6 @@ type BotConfig struct {
 func initConfig() *BotConfig {
 	viper.AddConfigPath("./config")
 	viper.SetConfigName("config")
-	viper.SetConfigName("secretmessage")
 	viper.SetConfigType("yaml")
 
 	viper.SetDefault("secretmessage.server.port", 8080)
@@ -61,7 +61,11 @@ func initConfig() *BotConfig {
 	}
 
 	config.Database.URL = fmt.Sprintf(
-		"postgres://%s:%s@%s/%s", config.Database.Username, config.Database.Password, config.Database.Host, config.Database.Name,
+		"postgres://%s:%s@%s/%s",
+		os.Getenv(config.Database.Username),
+		os.Getenv(config.Database.Password),
+		config.Database.Host,
+		config.Database.Name,
 	)
 
 	return &config
@@ -79,15 +83,15 @@ func main() {
 
 	conf := secretmessage.Config{
 		Port:            config.Server.Port,
-		SlackToken:      config.Slack.Token,
-		SigningSecret:   config.Slack.SigningSecret,
+		SlackToken:      os.Getenv(config.Slack.Token),
+		SigningSecret:   os.Getenv(config.Slack.SigningSecret),
 		AppURL:          config.Slack.AppURL,
-		LegacyCryptoKey: config.Core.CryptoKey,
+		LegacyCryptoKey: os.Getenv(config.Core.CryptoKey),
 		DatabaseURL:     config.Database.URL,
 		ExpirationTime:  config.Core.ExpirationTime,
 		OauthConfig: &oauth2.Config{
-			ClientID:     config.Slack.ClientID,
-			ClientSecret: config.Slack.ClientSecret,
+			ClientID:     os.Getenv(config.Slack.ClientID),
+			ClientSecret: os.Getenv(config.Slack.ClientSecret),
 			RedirectURL:  config.Slack.CallbackURL,
 			Scopes:       []string{"chat:write", "commands", "workflow.steps:execute"},
 			Endpoint: oauth2.Endpoint{
