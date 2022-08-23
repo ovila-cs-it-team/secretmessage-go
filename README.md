@@ -4,6 +4,10 @@
 #### Notice:
 Forked from [HERE](https://github.com/neufeldtech/secret-message)
 
+## Inhanced Features:
+
+ Every Message are wiped out of the DB and thus unavailable after first read or after the specified `Expired Time`.
+
 ---
 
  Send one-way messages through Slack
@@ -34,6 +38,16 @@ Forked from [HERE](https://github.com/neufeldtech/secret-message)
 - Set redirect URLs and bot scopes from https://api.slack.com/apps/${APP_ID}/oauth <img src="assets/03_cfg_oauth.png" width="500">
 
 ### Setup bot config file
+The secrets are handled [here](config/.env)
+```
+SlackSigningSecret=value
+SlackClientID=value
+SlackClientSecret=value
+SlackToken=value
+HashCryptoKey=value
+DBUsernameUsername=value
+DBUsernamePassword=value
+```
 The config file is handled [here](config/config.yaml)
 ```yaml
 slack:
