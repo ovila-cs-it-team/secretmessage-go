@@ -3,7 +3,7 @@ version: '3.8'
 services:
   secretmessage:
     container_name: secretmessage-go
-    env_file: .config/.env
+    # env_file: .config/.env
     build:
       context: .
       dockerfile: Dockerfile

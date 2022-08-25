@@ -38,35 +38,26 @@ Forked from [HERE](https://github.com/neufeldtech/secret-message)
 - Set redirect URLs and bot scopes from https://api.slack.com/apps/${APP_ID}/oauth <img src="assets/03_cfg_oauth.png" width="500">
 
 ### Setup bot config file
-The secrets are handled [here](config/.env)
 ```
-SlackSigningSecret=value
-SlackClientID=value
-SlackClientSecret=value
-SlackToken=value
-HashCryptoKey=value
-DBUsernameUsername=value
-DBUsernamePassword=value
+The config is made with environment variables
 ```
-The config file is handled [here](config/config.yaml)
-```yaml
 slack:
-  appURL:               # Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
-  signingSecret:        # (⚠️Env Variable) Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
-  clientID:             # (⚠️Env Variable) Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
-  clientSecret:         # (⚠️Env Variable) Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
-  callbackURL:          # Callback URL (https://${APP_URL}/auth/slack/callback)
-  token:                # (⚠️Env Variable) Slack verification token (https://api.slack.com/apps/${APP_ID}/general)
+  appURL:               # (Env KEY: SLACK_SECRET) Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
+  signingSecret:        # (Env KEY: SLACK_SECRET) Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
+  clientID:             # (️Env KEY: SLACK_CLIENT_ID) Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
+  clientSecret:         # (️Env KEY: SLACK_CLIENT_SECRET) Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
+  callbackURL:          # (️Env KEY: SLACK_CALLBACK_URL) Callback URL (https://${APP_URL}/auth/slack/callback)
+  token:                # (️Env KEY: SLACK_TOKEN) Slack verification token (https://api.slack.com/apps/${APP_ID}/general)
 server:
-  port:                 # Bot webserver port
+  port:                 # (️Env KEY: SERVER_PORT) Bot webserver port
 database:
-  name:                 # Database name
-  host:                 # Database host/address
-  username:             # (⚠️Env Variable) Database user
-  password:             # (⚠️Env Variable) Database password
+  name:                 # (️Env KEY: DATABASE_NAME) Database name
+  host:                 # (️Env KEY: DATABASE_HOST) Database host/address
+  username:             # (️Env KEY: DATABASE_USERNAME) Database user
+  password:             # (️Env KEY: DATABASE_PASSWORD) Database password
 core:
-  cryptoKey:            # (⚠️Env Variable) A chosen string to hash messages
-  expirationTime:       # Expiration time of message in database (in seconds)
+  cryptoKey:            # (️Env KEY: HASH_CRYPTO_KEY) A chosen string to hash messages
+  expirationTime:       # (️Env KEY: EXPIRATION_TIME) Expiration time of message in database (in seconds)
 ```
 
 ### Build and run the app

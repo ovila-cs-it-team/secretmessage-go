@@ -32,7 +32,6 @@ COPY --from=builder /etc/group /etc/group
 
 # Copy our static executable.
 COPY --from=builder /go/cmd/secretmessage /go/bin/secretmessage
-COPY --from=builder /go/cmd/config ./config/
 
 # Use an unprivileged user.
 USER appuser:appuser
