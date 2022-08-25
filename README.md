@@ -42,7 +42,7 @@ Forked from [HERE](https://github.com/neufeldtech/secret-message)
 The config is made with environment variables
 ```bash
 slack:
-  appURL:               # (Env KEY: SLACK_SECRET) Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
+  appURL:               # (Env KEY: SLACK_APP_URL) Base URL of the bot (eg. 'https://bot-example.com' if host with this domain) 
   signingSecret:        # (Env KEY: SLACK_SECRET) Slack signing secret (https://api.slack.com/apps/${APP_ID}/general)
   clientID:             # (️Env KEY: SLACK_CLIENT_ID) Slack client ID (https://api.slack.com/apps/${APP_ID}/general)
   clientSecret:         # (️Env KEY: SLACK_CLIENT_SECRET) Slack client secret (https://api.slack.com/apps/${APP_ID}/general)
